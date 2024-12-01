@@ -10,7 +10,11 @@ const supabaseURL = "https://epyxrggyyuntjuaslbqr.supabase.co"
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXhyZ2d5eXVudGp1YXNsYnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MDgzNjYsImV4cCI6MjA0ODQ4NDM2Nn0.FEjCK8niumZaWUg9mT2QUqFTJrBdgo8SqVOAHMJ5uOY'
 const supabase = supabaseClient.createClient(supabaseURL, supabaseKey)
 
-app.get('/Adopters', async (req, res) => {
+app.get('/', (req, res) => {
+    res.sendFile('public/Home.html', { root: __dirname })
+})
+
+app.get('/adopters', async (req, res) => {
     console.log('Attempting to get all adopters')
 
     const {data, error} = await supabase.from('Adopters').select('*')
