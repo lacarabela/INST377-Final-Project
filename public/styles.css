@@ -10,8 +10,8 @@ body {
     align-items: center;
     justify-content: center;
     border: 3px solid black;
-    margin: 5px;
-    padding: 5px;
+    padding: 6px;
+    margin-bottom: 5px;
 }
 
 #logo {
@@ -28,7 +28,6 @@ body {
 }
 
 #main-nav {
-    margin: 5px;
     text-align: center;
     background-color:lightblue;
     border: 3px solid black;
@@ -53,4 +52,8 @@ body {
 #main-nav a {
     text-decoration: none;
     color:#000000
+}
+
+.autocomplete-container {
+    position: relative;
 }
