@@ -1,37 +1,44 @@
+/*Page Design*/
+
 body {
-    background-color:antiquewhite;
+    background-color: #f3f3f3;
 }
 
 .header {
-    background-color: lightblue;
-    height: 17%;
+    height: 15vh; 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 3px solid black;
-    padding: 6px;
-    margin-bottom: 5px;
+    padding: 20px; 
+    margin-bottom: 20px;  
 }
 
+
 #logo {
-    width: 120px;
+    width: 100px;
     height: auto;
     display: block;
-    margin: 0 auto;
+    margin-top: -50px;
+    margin-bottom: -20px;
     padding: 0;
 }
 
 .header h1 {
     text-align: center;
-    margin: 0;
+    color: bold black;  
+    margin: 0;  
+    padding: 0;  
 }
 
 #main-nav {
     text-align: center;
     background-color:lightblue;
-    border: 3px solid black;
     font-size: large;
+    margin-top: -40px; 
+    padding:0;  
+    width: 100vw;
+    box-sizing: border-box;
 }
 
 #main-nav ul li {
@@ -42,7 +49,7 @@ body {
 }
 
 #main-nav li:hover {
-    background-color:cornsilk;
+    background-color:#f3f3f3;
 }
 
 #main-nav li a:hover {
@@ -57,6 +64,8 @@ body {
 .autocomplete-container {
     position: relative;
 }
+
+
 
 /* Explore Page */
 .explore-container {
@@ -208,4 +217,99 @@ body {
 .page-ellipsis {
     padding: 8px 12px;
     user-select: none;
+}
+
+
+/* Adopt now Page*/
+.writtenSteps{
+    border: 4px solid black; 
+    border-radius: 10px;  
+    padding: 20px; 
+    width: 70%;       
+    margin: 20px auto; 
+    text-align: center;
+
+}
+.writtenSteps ol {
+    list-style-position: inside; 
+    text-align: left;
+}
+
+.form-container {
+    border: 4px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    margin: 20px auto;
+}
+
+.form-container h2 {
+    text-align: center;
+}
+
+.form-container form label {
+    display: block;
+    margin-top: 10px;
+    color: black;
+    font-weight: bolder;
+}
+
+.button-21 {
+    margin-top: 20px; 
+    align-items: center;
+    appearance: none;
+    background-color: #3EB2FD;
+    background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+    background-size: calc(100% + 20px) calc(100% + 20px);
+    border-radius: 100px;
+    border-width: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: CircularStd,sans-serif;
+    font-size: 1rem;
+    height: auto;
+    justify-content: center;
+    line-height: 1.5;
+    padding: 6px 20px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .2s,background-position .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: top;
+    white-space: nowrap;
+  }
+  .button-21:active,
+  .button-21:focus {
+    outline: none;
+  }
+  .button-21:hover {
+    background-position: -20px -20px;
+  }
+  .button-21:focus:not(:active) {
+    box-shadow: rgba(40, 170, 255, 0.25) 0 0 0 .125em;
+  }
+  
+
+
+
+/* Home Page */
+.newest-arrivals-container {
+    width: 80%;   
+    margin: 0 auto; 
+    border: 3px solid black; 
+    border-radius: 10px;  
+    padding: 20px;      
+    box-sizing: border-box; 
+}
+
+.newest-arrivals-container .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 20px;
 }
