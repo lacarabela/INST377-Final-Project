@@ -308,8 +308,14 @@ body {
     box-sizing: border-box; 
 }
 
+.newest-arrivals-container h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
 .newest-arrivals-container .grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(5, 1fr); 
     gap: 20px;
 }

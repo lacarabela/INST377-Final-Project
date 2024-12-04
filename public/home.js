@@ -1,9 +1,8 @@
-
 const API_KEY = '6fl4zm3w';
 
 async function fetchPets() {
     try {
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=animals.createdDate&limit=16&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText,picture', {
+        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=-animals.createdDate&limit=5&include=pictures&filter%5Bstatuses.name%5D=Available&fields%5Bpictures%5D=large,medium,small,thumbnail&fields%5Banimals%5D=id,name,species,breedPrimary,ageGroup,sex,descriptionText,createdDate', {
             headers: {
                 'Authorization': API_KEY,
                 'Content-Type': 'application/vnd.api+json'
@@ -39,10 +38,14 @@ function displayPets(pets) {
             ageGroup,
             sex,
             descriptionText,
-            picture
+            createdDate
         } = pet.attributes;
         
-        const imgUrl = picture?.[0]?.url || '';
+        const imgUrl = pet.relationships?.pictures?.data[0]?.id 
+            ? pet.included?.find(item => 
+                item.id === pet.relationships.pictures.data[0].id
+              )?.attributes?.large?.url 
+            : '';
 
         petCard.innerHTML = `
             <img src="${imgUrl}" alt="${name}" class="pet-img">
