@@ -1,7 +1,11 @@
 <html>
     <head>
-        <title>Home</title>
+        <title>Newsletter</title>
         <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="newsletter.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+        <script src="newsletter.js" defer></script>
     </head>
 
     <body>
@@ -20,6 +24,17 @@
                 <li><a href="Newsletter.html">Newsletter</a></li>
             </ul>
         </nav>
-        
+
+        <!-- Success Stories Section -->
+        <div class="success-story-container">
+            <h2>Success Stories</h2>
+            <div class="slider-container">
+                <div class="story-showcase" id="story-container">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <button class="slider-nav prev">&lt;</button>
+                <button class="slider-nav next">&gt;</button>
+            </div>
+        </div>
     </body>
 </html>
