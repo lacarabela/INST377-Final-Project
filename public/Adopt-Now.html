@@ -3,6 +3,16 @@
     <title>Adoption Inquiry</title>
     <link rel="stylesheet" href="styles.css">
     <script src="adopt-now.js" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        #map {
+            height: 550px;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,6 +42,21 @@
             <li>Step Four</li>
             <li>Step Five</li>
         </ol>
+    </div>
+
+    <!--Find a Location-->
+    <div class="orgMap">
+        <form id="orgForm" onsubmit="fetchOrgs(event)">
+            <label for="searchZip"><strong>Zip Code:</strong></label>
+            <input type="text" id="searchZip" maxlength="5" required>
+            <select name="miles" id="miles">
+                <option value="10">10 Miles</option>
+                <option value="25">25 Miles</option>
+                <option value="50">50 Miles</option>
+            </select>
+            <button class="button-22" type="submit" role="button">Search</button>
+        </form>
+        <div id="map"></div>
     </div>
             
     <!--Contact Form-->
