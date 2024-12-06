@@ -32,6 +32,7 @@ function displayPets(pets) {
         petCard.className = 'pet-card';
         
         const {
+            id,
             name,
             species,
             breedPrimary,
@@ -42,7 +43,7 @@ function displayPets(pets) {
         
         petCard.innerHTML = `
             <div class="pet-info">
-                <h3 class="pet-name">${name}</h3>
+                <h3 class="pet-name">${name} • Pet ID: ${id}</h3>
                 <div class="pet-details">
                     <p>${species} • ${sex}</p>
                     <p>${breedPrimary}</p>
