@@ -63,6 +63,8 @@
     overflow: hidden;
     transition: transform 0.2s;
     padding: 15px;
+    display: flex;
+    flex-direction: column;
 }
 
 .pet-card:hover {
@@ -70,6 +72,12 @@
     background-color: cornsilk;
 }
 
+.pet-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
 .pet-info {
     padding: 15px;
 }

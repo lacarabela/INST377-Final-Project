@@ -9,7 +9,7 @@ async function fetchPets() {
             }
         });
         const data = await response.json();
-        displayPets(data.data);
+        displayPets(data.data, data.included); //passing in included into displayPets
     } catch (error) {
         console.error('Error fetching pets:', error);
         document.getElementById('pet-container').innerHTML = 
@@ -18,7 +18,7 @@ async function fetchPets() {
 }
 
 
-function displayPets(pets) {
+function displayPets(pets, included) {
     const container = document.getElementById('pet-container');
     container.innerHTML = ''; 
     
@@ -28,9 +28,6 @@ function displayPets(pets) {
     }
 
     pets.forEach(pet => {
-        const petCard = document.createElement('div');
-        petCard.className = 'pet-card';
-        
         const {
             name,
             species,
@@ -41,14 +38,20 @@ function displayPets(pets) {
             createdDate
         } = pet.attributes;
         
-        const imgUrl = pet.relationships?.pictures?.data[0]?.id 
-            ? pet.included?.find(item => 
-                item.id === pet.relationships.pictures.data[0].id
-              )?.attributes?.large?.url 
-            : '';
+        //getting image ID
+        const pictureId = pet.relationships?.pictures?.data[0]?.id;
+        //getting matching image
+        const imageObject = included.find(item => item.id === pictureId);
+        //get the URL
+        const imgUrl = imageObject?.attributes?.large?.url || '';  
+        // default image 
+        const imageSrc = imgUrl || 'https://via.placeholder.com/150';
+
+        const petCard = document.createElement('div');
+        petCard.className = 'pet-card';
 
         petCard.innerHTML = `
-            <img src="${imgUrl}" alt="${name}" class="pet-img">
+            <img src="${imageSrc}" alt="${name}" class="pet-img">
             <h3 class="pet-name">${name}</h3>
             <div class="pet-details">
                 <p>${species} • ${sex}</p>

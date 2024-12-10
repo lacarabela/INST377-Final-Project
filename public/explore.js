@@ -3,14 +3,15 @@ const API_KEY = '6fl4zm3w';
 
 async function fetchPets() {
     try {
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText', {
+        // added &include=pictures to the API request bc thats where the images are
+        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText', {
             headers: {
                 'Authorization': API_KEY,
                 'Content-Type': 'application/vnd.api+json'
             }
         });
         const data = await response.json();
-        displayPets(data.data);
+        displayPets(data.data, data.included); // passing the pets and the included data(images)
     } catch (error) {
         console.error('Error fetching pets:', error);
         document.getElementById('pet-container').innerHTML = 
@@ -18,7 +19,7 @@ async function fetchPets() {
     }
 }
 
-function displayPets(pets) {
+function displayPets(pets, included) {
     const container = document.getElementById('pet-container');
     container.innerHTML = ''; 
     
@@ -28,9 +29,6 @@ function displayPets(pets) {
     }
     
     pets.forEach(pet => {
-        const petCard = document.createElement('div');
-        petCard.className = 'pet-card';
-        
         const {
             id,
             name,
@@ -41,7 +39,23 @@ function displayPets(pets) {
             descriptionText
         } = pet.attributes;
         
+        //getting the picture id
+        const pictureId = pet.relationships?.pictures?.data[0]?.id;
+
+        // find the image using the id 
+        const imageObject = included.find(item => item.id === pictureId);
+
+        // get image
+        const imgUrl = imageObject?.attributes?.large?.url || '';  
+
+        // placeholder
+        const imageSrc = imgUrl || 'https://via.placeholder.com/150';
+        
+        const petCard = document.createElement('div');
+        petCard.className = 'pet-card';
+
         petCard.innerHTML = `
+            <img src="${imageSrc}" alt = "${name}" class = "pet-img">
             <div class="pet-info">
                 <h3 class="pet-name">${name} • Pet ID: ${id}</h3>
                 <div class="pet-details">
