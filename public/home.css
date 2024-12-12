@@ -92,38 +92,38 @@
 
 /*Newsletter sign up form*/
 .container {
-    display: flex;
-    justify-content: space-around;
-    padding: 40px 20px;
-  }
+display: flex;
+justify-content: space-around;
+padding: 40px 20px;
+}
 
 .form-section {
-    background-color: #e6f7fc;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-section h2, .rescue-section h2 {
-    text-align: center;
-  }
-  
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  input, textarea, button {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-  
-  button {
-    background-color: #0d3b52;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
+background-color: #e6f7fc;
+padding: 20px;
+border-radius: 8px;
+box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.form-section h2, .rescue-section h2 {
+text-align: center;
+}
+
+form {
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+
+input, textarea, button {
+padding: 10px;
+border: 1px solid #ccc;
+border-radius: 5px;
+font-size: 1rem;
+}
+
+button {
+background-color: #0d3b52;
+color: #fff;
+border: none;
+cursor: pointer;
+}
