@@ -1,6 +1,6 @@
 /* General Page Design */
 body {
-    background-color: #f3f3f3;
+    background-color: #e3f8f7;
 }
 
 /* Header Styles */
@@ -12,7 +12,7 @@ body {
     justify-content: center;
     padding: 20px; 
     margin-bottom: 20px;
-    background-color: rgba(173, 216, 230, 0.409);
+    background-color: #d2f5f4;
 }
 
 #logo {
