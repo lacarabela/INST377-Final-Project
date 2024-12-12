@@ -4,7 +4,7 @@
 - Description of target browsers (ios? Android? Desktop?)
 - Link to Developer Manual
 
-#------------------------------------
+------------------------------------
 
 Welcome to Rescue Groups!
   Animal shelters in the United States face an ongoing issue of overcrowding, with an estimated 6.3 million domestic animals entering shelters every year, according to the American Society for the Prevention of Cruelty to Animals (ASPCA). Unfortunately, about 10% of adopted pets are returned to shelters annually because they turn out to be a poor match with the new owners. This cycle not only stresses the animals but also discourages potential pet owners from adopting, as they struggle to find the perfect match. The current process lacks a structured, reliable system that helps individuals find their ideal pet efficiently, leading to frustration and potentially more animals being returned to shelters.
@@ -15,7 +15,7 @@ Our project website pages are designed for a desktop target browser and best dis
 
 Developer Manual - link
 
-#-------------------------------------
+-------------------------------------
 ## Bottom Half of README should include:
 - The audience of this document is future developers who will take over your system.
 - They know technical terms and have general knowledge about web applications, but do not have knowledge about your system design.
