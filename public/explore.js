@@ -1,15 +1,68 @@
 // API Key configuration
 const API_KEY = '6fl4zm3w';
 
-async function fetchPets() {
+//creates the body for filters
+function buildFilters(form) {
+    const selectedFilters = new FormData(form);
+
+    const filters = [];
+    let filterCount = 1;
+
+    const petType = selectedFilters.getAll('petType');
+    if(petType) {
+        filters.push({
+            fieldName: 'species.id', 
+            operation: 'equal', 
+            criteria: petType
+        })
+    }
+    const selectedAges = selectedFilters.getAll('petAge');
+    if (selectedAges.length > 0){
+        filters.push({
+            fieldName: 'animals.ageGroup', 
+            operation: 'equal', 
+            criteria: selectedAges
+        })
+    }
+
+    const selectedColors = selectedFilters.getAll('petColor');
+    if (selectedColors.length > 0){
+        filters.push({
+            fieldName: 'colors.id', 
+            operation: 'equal', 
+            criteria: selectedColors
+        })
+    }
+    
+    return {
+        data: {
+            filters
+        }
+    };
+}
+    
+
+async function fetchPets(structuredFilters=null) {
     try {
-        // added &include=pictures to the API request bc thats where the images are
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText', {
+        const headerOptions = {
             headers: {
                 'Authorization': API_KEY,
                 'Content-Type': 'application/vnd.api+json'
-            }
-        });
+            },
+        };
+        
+        // need to establish different fetch URLs and body values for filters to avoid errors
+        if(structuredFilters) {
+            url = 'https://api.rescuegroups.org/v5/public/animals/search'
+            headerOptions.body=JSON.stringify(structuredFilters);
+            headerOptions.method="POST";
+        } else {
+            url = 'https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText'
+            headerOptions.method="GET";
+        }
+        
+        // added &include=pictures to the API request bc thats where the images are
+        const response = await fetch(url, headerOptions);
         const data = await response.json();
         displayPets(data.data, data.included); // passing the pets and the included data(images)
     } catch (error) {
@@ -72,6 +125,15 @@ function displayPets(pets, included) {
 }
 
 // Initialize
+const filtersForm = document.getElementById('petFilters')
+filtersForm.addEventListener('submit', async(event) => {
+    event.preventDefault();
+    const formSubmission = event.target;
+    const structuredFilters = buildFilters(formSubmission);
+    fetchPets(structuredFilters);
+});
+
 document.addEventListener('DOMContentLoaded', () => {
-    fetchPets();
+    const structuredFilters = buildFilters(filtersForm);
+    fetchPets(structuredFilters);
 });

@@ -23,44 +23,43 @@
 
     <div class="explore-container">
         <aside class="filter-menu">
-            <h2>Filter Pets</h2>
-            
-            <div class="filter-section">
-                <h3>Pet Type</h3>
-                <label><input type="radio" name="petType" value="dog" checked> Dogs</label>
-                <label><input type="radio" name="petType" value="cat"> Cats</label>
-            </div>
+            <form id="petFilters">
+                <h2>Filter Pets</h2>
+                
+                <div class="filter-section">
+                    <h3>Pet Type</h3>
+                    <label><input type="checkbox" name="petType" value="8" checked> Dogs</label>
+                    <label><input type="checkbox" name="petType" value="3"> Cats</label>
+                </div>
 
-            <div class="filter-section">
-                <h3>Distance</h3>
-                <select id="distance">
-                    <option value="10">Within 10 miles</option>
-                    <option value="25">Within 25 miles</option>
-                    <option value="50">Within 50 miles</option>
-                    <option value="100">Within 100 miles</option>
-                </select>
-            </div>
+                <div class="filter-section">
+                    <h3>Distance</h3>
+                    <select id="distance">
+                        <option name="petDistance" value="10">Within 10 miles</option>
+                        <option name="petDistance" value="25">Within 25 miles</option>
+                        <option name="petDistance" value="50">Within 50 miles</option>
+                        <option name="petDistance" value="100">Within 100 miles</option>
+                    </select>
+                </div>
 
-            <div class="filter-section">
-                <h3>Age</h3>
-                <label><input type="checkbox" value="baby"> Baby</label>
-                <label><input type="checkbox" value="young"> Young</label>
-                <label><input type="checkbox" value="adult"> Adult</label>
-                <label><input type="checkbox" value="senior"> Senior</label>
-            </div>
+                <div class="filter-section">
+                    <h3>Age</h3>
+                    <label><input type="checkbox" name="petAge" value="baby"> Baby</label>
+                    <label><input type="checkbox" name="petAge" value="young"> Young</label>
+                    <label><input type="checkbox" name="petAge" value="adult"> Adult</label>
+                    <label><input type="checkbox" name="petAge" value="senior"> Senior</label>
+                </div>
 
-            <div class="filter-section">
-                <h3>Color</h3>
-                <select id="color" multiple>
-                    <option value="black">Black</option>
-                    <option value="white">White</option>
-                    <option value="brown">Brown</option>
-                    <option value="golden">Golden</option>
-                    <option value="mixed">Mixed</option>
-                </select>
-            </div>
+                <div class="filter-section">
+                    <h3>Color</h3>
+                    <label><input type="checkbox" name="petColor" value="1">Black</label>
+                    <label><input type="checkbox" name="petColor" value="21">White</label>
+                    <label><input type="checkbox" name="petColor" value="7">Brown</label>
+                    <label><input type="checkbox" name="petColor" value="17">Golden</label>
+                </div>
 
-            <button id="apply-filters" class="filter-button">Apply Filters</button>
+                <button id="apply-filters" class="filter-button">Apply Filters</button>
+            </form>
         </aside>
 
         <main class="main-content">
