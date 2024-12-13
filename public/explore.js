@@ -5,33 +5,78 @@ let currentPage = 1;
 let allPets = []; // Cache to store all fetched pets
 let includedData = []; // Cache to store all included data (images)
 
-async function fetchAllPets() {
-    try {
-        // Get values from inputs
-        const zipCode = document.getElementById('zipcode').value || '20742'; // Default to UMD if empty
-        const distance = document.getElementById('distance').value;
+//creates the body for filters
+function buildFilters(form) {
+    const selectedFilters = new FormData(form);
+ 
+ 
+    const filters = [];
+    let filterCount = 1;
+ 
+ 
+    const petType = selectedFilters.getAll('petType');
+    if(petType) {
+        filters.push({
+            fieldName: 'species.id',
+            operation: 'equal',
+            criteria: petType
+        })
+    }
+    const selectedAges = selectedFilters.getAll('petAge');
+    if (selectedAges.length > 0){
+        filters.push({
+            fieldName: 'animals.ageGroup',
+            operation: 'equal',
+            criteria: selectedAges
+        })
+    }
+ 
+ 
+    const selectedColors = selectedFilters.getAll('petColor');
+    if (selectedColors.length > 0){
+        filters.push({
+            fieldName: 'colors.id',
+            operation: 'equal',
+            criteria: selectedColors
+        })
+    }
+    
+    // Get values from inputs
+    const zipCode = document.getElementById('zipcode').value || '20742'; // Default to UMD if empty
+    const distance = document.getElementById('distance').value;
 
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals/search/available', {
-            method: 'POST',
+    return {
+        data: {
+            filters,
+            filterRadius: {
+                miles: parseInt(distance),
+                postalcode: zipCode
+            }
+            
+        }
+    };
+ }
+
+async function fetchPets(structuredFilters=null) {
+    try {
+        const headerOptions = {
             headers: {
                 'Authorization': API_KEY,
                 'Content-Type': 'application/vnd.api+json'
             },
-            body: JSON.stringify({
-                data: {
-                    filterRadius: {
-                        miles: parseInt(distance),
-                        postalcode: zipCode
-                    },
-                    sort: ["-id"],
-                    fields: {
-                        animals: ["id", "name", "species", "breedPrimary", "ageGroup", "sex", "descriptionText"]
-                    },
-                    include: ["pictures"]
-                }
-            })
-        });
-        
+        };
+
+        if(structuredFilters) {
+            url = 'https://api.rescuegroups.org/v5/public/animals/search'
+            headerOptions.body=JSON.stringify(structuredFilters);
+            headerOptions.method="POST";
+        } else {
+            url = 'https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText'
+            headerOptions.method="GET";
+        }
+
+        // added &include=pictures to the API request bc thats where the images are
+        const response = await fetch(url, headerOptions);
         const data = await response.json();
         
         if (!data.data || data.data.length === 0) {
@@ -129,9 +174,16 @@ function displayPets(pets, included) {
     });
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initial fetch of all pets
-    fetchAllPets();
+    const filtersForm = document.getElementById('petFilters')
+    filtersForm.addEventListener('submit', async(event) => {
+        event.preventDefault();
+        const formSubmission = event.target;
+        const structuredFilters = buildFilters(formSubmission);
+        fetchPets(structuredFilters);
+    });
     
     document.getElementById('prev-page').addEventListener('click', () => {
         if (currentPage > 1) {
@@ -149,14 +201,17 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
-    
-    document.getElementById('apply-filters').addEventListener('click', () => {
-        const zipCode = document.getElementById('zipcode').value;
-        if (zipCode && zipCode.length === 5) {
-            currentPage = 1; // Reset to first page
-            fetchAllPets(); // Fetch new pets based on new location
-        } else {
-            alert('Please enter a valid 5-digit ZIP code');
-        }
-    });
+
+    // document.getElementById('apply-filters').addEventListener('click', () => {
+    //     const zipCode = document.getElementById('zipcode').value;
+    //     if (zipCode && zipCode.length === 5) {
+    //         currentPage = 1; // Reset to first page
+    //         fetchAllPets(); // Fetch new pets based on new location
+    //     } else {
+    //         alert('Please enter a valid 5-digit ZIP code');
+    //     }
+    // });
+
+    // Initial fetch of all pets (no filters)
+    fetchPets();
 });
