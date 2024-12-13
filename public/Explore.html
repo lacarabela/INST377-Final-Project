@@ -33,13 +33,15 @@
                 </div>
 
                 <div class="filter-section">
-                    <h3>Distance</h3>
-                    <select id="distance">
+                    <h3>Location</h3>
+                    <input type="text" id="zipcode" placeholder="Enter ZIP code" maxlength="5" pattern="[0-9]{5}">
+                <select id="distance">
                         <option name="petDistance" value="10">Within 10 miles</option>
                         <option name="petDistance" value="25">Within 25 miles</option>
                         <option name="petDistance" value="50">Within 50 miles</option>
                         <option name="petDistance" value="100">Within 100 miles</option>
-                    </select>
+                        <option value="500" selected>Within 500 miles</option>
+                </select>
                 </div>
 
                 <div class="filter-section">
@@ -66,14 +68,7 @@
             <div id="pet-container" class="pet-grid"></div>
             
             <div class="pagination">
-                <button id="prev-page">Previous</button>
-                <div id="page-numbers">
-                    <div class="page-number active">1</div>
-                    <div class="page-number">2</div>
-                    <div class="page-number">3</div>
-                    <div class="page-ellipsis">...</div>
-                    <div class="page-number">10</div>
-                </div>
+                <button id="prev-page" disabled>Previous</button>
                 <button id="next-page">Next</button>
             </div>
         </main>
