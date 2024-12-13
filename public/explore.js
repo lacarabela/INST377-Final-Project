@@ -54,6 +54,13 @@ function buildFilters(form) {
     const zipCode = document.getElementById('zipcode').value || '20742'; // Default to UMD if empty
     const distance = document.getElementById('distance').value;
 
+    // ensures to only get available animals
+    filters.push({
+        fieldName: 'statuses.id',
+        operation: 'equal',
+        criteria: [1, 2] //the species id for both dogs and cats
+    })
+
     return {
         data: {
             filters,
@@ -76,12 +83,12 @@ async function fetchPets(structuredFilters=null) {
         };
 
         if(structuredFilters) {
-            url = 'https://api.rescuegroups.org/v5/public/animals/search/available'
+            url = 'https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate'
             headerOptions.body=JSON.stringify(structuredFilters);
             headerOptions.method="POST";
         } else {
-            url = 'https://api.rescuegroups.org/v5/public/animals/search/?sort=-animals.updatedDate'
-            headerOptions.body-JSON.stringify({
+            url = 'https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate'
+            headerOptions.body=JSON.stringify({
                 data: {
                     filters: [
                         {
@@ -90,13 +97,14 @@ async function fetchPets(structuredFilters=null) {
                             criteria: [8, 3] //the species id for both dogs and cats
                         },
                         {
-                            fieldName: 'status.name',
-                            operation: 'Available'
+                            fieldName: 'statuses.id',
+                            operation: 'equal',
+                            criteria: [1, 2] //the species id for both dogs and cats
                         }
                     ],
                     filterRadius: {
                         miles: 500,
-                        postalcode: 20743
+                        postalcode: "20743"
                     }   
                 }
             })
