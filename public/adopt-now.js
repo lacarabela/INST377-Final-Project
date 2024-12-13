@@ -41,16 +41,39 @@ async function fetchOrgs(e) {
         }
     });
     const data = await response.json();
-    const organizations = data.data
+    const organizations = data.data;
     organizations.forEach(org => {
-      const lat = org.attributes.lat
-      const lon = org.attributes.lon
-      const orgName = org.attributes.name
-      const orgType = org.attributes.type
-      const orgEmail = org.attributes.email
+      const lat = org.attributes.lat;
+      const lon = org.attributes.lon;
 
-      const details = `<b style='font-size:15pt;'> ${orgName} </b> <br> <i style='font-size:12pt;'> Type: ${orgType} </i> <br>${orgEmail}`
-      L.marker([lat, lon]).addTo(map).bindPopup(details)
+      const orgName = org.attributes.name;
+      let details = `<b style='font-size:15pt;'> ${orgName} </b>`;
+
+      const orgStreet = org.attributes.street;
+      const orgCityState = org.attributes.citystate;
+      
+      if(orgStreet&&orgCityState){
+        const orgLocation = `<br><strong>Location:</strong> ${orgStreet}, ${orgCityState}`;
+        details += orgLocation;
+      }else if(orgCityState){
+        const orgLocation = `<br><strong>Location:</strong> ${orgCityState}`
+        details += orgLocation;
+      }
+      
+      if(org.attributes.type){
+        const orgType = org.attributes.type;
+        details += `<br><strong>Type:</strong> ${orgType}`;
+      }
+      if(org.attributes.email){
+        const orgEmail = org.attributes.email;
+        details += `<br><strong>Email:</strong> ${orgEmail}`;
+      }
+      if(org.attributes.serveAreas){
+        const orgServeAreas = org.attributes.serveAreas
+        details += `<br><strong>Serve Areas:</strong> ${orgServeAreas}`
+      }
+       
+      L.marker([lat, lon]).addTo(map).bindPopup(details);
     });
   } catch (error) {
       console.error('Error fetching organizations:', error);
