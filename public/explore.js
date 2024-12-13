@@ -14,13 +14,22 @@ function buildFilters(form) {
     let filterCount = 1;
  
  
-    const petType = selectedFilters.getAll('petType');
+    const petType = selectedFilters.get('petType');
     if(petType) {
-        filters.push({
-            fieldName: 'species.id',
-            operation: 'equal',
-            criteria: petType
-        })
+        if(petType==='both'){
+            filters.push({
+                fieldName: 'species.id',
+                operation: 'equal',
+                criteria: [8, 3] //the species id for both dogs and cats
+            });
+        } else {
+            filters.push({
+                fieldName: 'species.id',
+                operation: 'equal',
+                criteria: [parseInt(petType)]
+            });
+        }
+        
     }
     const selectedAges = selectedFilters.getAll('petAge');
     if (selectedAges.length > 0){
@@ -67,12 +76,31 @@ async function fetchPets(structuredFilters=null) {
         };
 
         if(structuredFilters) {
-            url = 'https://api.rescuegroups.org/v5/public/animals/search'
+            url = 'https://api.rescuegroups.org/v5/public/animals/search/available'
             headerOptions.body=JSON.stringify(structuredFilters);
             headerOptions.method="POST";
         } else {
-            url = 'https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText'
-            headerOptions.method="GET";
+            url = 'https://api.rescuegroups.org/v5/public/animals/search/?sort=-animals.updatedDate'
+            headerOptions.body-JSON.stringify({
+                data: {
+                    filters: [
+                        {
+                            fieldName: 'species.id',
+                            operation: 'equal',
+                            criteria: [8, 3] //the species id for both dogs and cats
+                        },
+                        {
+                            fieldName: 'status.name',
+                            operation: 'Available'
+                        }
+                    ],
+                    filterRadius: {
+                        miles: 500,
+                        postalcode: 20743
+                    }   
+                }
+            })
+            headerOptions.method="POST";
         }
 
         // added &include=pictures to the API request bc thats where the images are
