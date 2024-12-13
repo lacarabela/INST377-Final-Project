@@ -1,22 +1,80 @@
 // API Key configuration
 const API_KEY = '6fl4zm3w';
 
-async function fetchPets() {
+let currentPage = 1;
+let allPets = []; // Cache to store all fetched pets
+let includedData = []; // Cache to store all included data (images)
+
+async function fetchAllPets() {
     try {
-        // added &include=pictures to the API request bc thats where the images are
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=animals.updatedDate&limit=20&include=pictures&fields[animals]=id,name,species,breedPrimary,ageGroup,sex,descriptionText', {
+        // Get values from inputs
+        const zipCode = document.getElementById('zipcode').value || '20742'; // Default to UMD if empty
+        const distance = document.getElementById('distance').value;
+
+        const response = await fetch('https://api.rescuegroups.org/v5/public/animals/search/available', {
+            method: 'POST',
             headers: {
                 'Authorization': API_KEY,
                 'Content-Type': 'application/vnd.api+json'
-            }
+            },
+            body: JSON.stringify({
+                data: {
+                    filterRadius: {
+                        miles: parseInt(distance),
+                        postalcode: zipCode
+                    },
+                    sort: ["-id"],
+                    fields: {
+                        animals: ["id", "name", "species", "breedPrimary", "ageGroup", "sex", "descriptionText"]
+                    },
+                    include: ["pictures"]
+                }
+            })
         });
+        
         const data = await response.json();
-        displayPets(data.data, data.included); // passing the pets and the included data(images)
+        
+        if (!data.data || data.data.length === 0) {
+            document.getElementById('pet-container').innerHTML = 
+                '<p style="text-align: center;">No pets available in this area.</p>';
+            return;
+        }
+
+        // Store all pets and included data in our cache
+        allPets = data.data;
+        includedData = data.included || [];
+        
+        // Display first page
+        currentPage = 1; // Reset to first page when new data is loaded
+        displayCurrentPage();
     } catch (error) {
         console.error('Error fetching pets:', error);
         document.getElementById('pet-container').innerHTML = 
             '<p style="text-align: center; color: red;">Error loading pets. Please try again later.</p>';
     }
+}
+
+function displayCurrentPage() {
+    const startIndex = (currentPage - 1) * 20;
+    const endIndex = startIndex + 20;
+    const petsToDisplay = allPets.slice(startIndex, endIndex);
+    
+    // Clear the container
+    const container = document.getElementById('pet-container');
+    container.innerHTML = '';
+    
+    if (petsToDisplay.length === 0) {
+        container.innerHTML = '<p style="text-align: center;">No more pets available.</p>';
+        document.getElementById('next-page').disabled = true;
+        return;
+    }
+    
+    // Display the current page of pets
+    displayPets(petsToDisplay, includedData);
+    
+    // Update button states
+    document.getElementById('prev-page').disabled = currentPage === 1;
+    document.getElementById('next-page').disabled = endIndex >= allPets.length;
 }
 
 function displayPets(pets, included) {
@@ -71,7 +129,34 @@ function displayPets(pets, included) {
     });
 }
 
-// Initialize
 document.addEventListener('DOMContentLoaded', () => {
-    fetchPets();
+    // Initial fetch of all pets
+    fetchAllPets();
+    
+    document.getElementById('prev-page').addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            displayCurrentPage();
+            document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    
+    document.getElementById('next-page').addEventListener('click', () => {
+        const maxPage = Math.ceil(allPets.length / 20);
+        if (currentPage < maxPage) {
+            currentPage++;
+            displayCurrentPage();
+            document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    
+    document.getElementById('apply-filters').addEventListener('click', () => {
+        const zipCode = document.getElementById('zipcode').value;
+        if (zipCode && zipCode.length === 5) {
+            currentPage = 1; // Reset to first page
+            fetchAllPets(); // Fetch new pets based on new location
+        } else {
+            alert('Please enter a valid 5-digit ZIP code');
+        }
+    });
 });
