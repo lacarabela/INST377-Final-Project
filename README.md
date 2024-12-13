@@ -13,7 +13,8 @@ Welcome to Rescue Groups!
 
 Our project website pages are designed for a desktop target browser and best displays on landscape desktop or laptop screens. This type of browser would best allow for all of our features and designs to show up as intended to each viewer/user. 
 
-Developer Manual - link
+Developer Manual - [Developer Manual](docs/developer-manual.md)
+
 
 -------------------------------------
 ## Bottom Half of README should include:
