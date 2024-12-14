@@ -2,6 +2,7 @@
 const API_KEY = '6fl4zm3w';
 
 let currentPage = 1;
+let pageTracker = 1;
 let allPets = []; // Cache to store all fetched pets
 let includedData = []; // Cache to store all included data (images)
 
@@ -73,7 +74,7 @@ function buildFilters(form) {
     };
  }
 
-async function fetchPets(structuredFilters=null) {
+async function fetchPets(page=1, structuredFilters=null) {
     try {
         const headerOptions = {
             headers: {
@@ -83,11 +84,11 @@ async function fetchPets(structuredFilters=null) {
         };
 
         if(structuredFilters) {
-            url = 'https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate'
+            url = `https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate&limit=28&page=${page}`
             headerOptions.body=JSON.stringify(structuredFilters);
             headerOptions.method="POST";
         } else {
-            url = 'https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate'
+            url = `https://api.rescuegroups.org/v5/public/animals/search?sort=-animals.updatedDate&limit=28&page=${page}`
             headerOptions.body=JSON.stringify({
                 data: {
                     filters: [
@@ -124,9 +125,9 @@ async function fetchPets(structuredFilters=null) {
         // Store all pets and included data in our cache
         allPets = data.data;
         includedData = data.included || [];
+        currentPage = page;
+        totalPages = data.meta.pages;
         
-        // Display first page
-        currentPage = 1; // Reset to first page when new data is loaded
         displayCurrentPage();
     } catch (error) {
         console.error('Error fetching pets:', error);
@@ -136,26 +137,24 @@ async function fetchPets(structuredFilters=null) {
 }
 
 function displayCurrentPage() {
-    const startIndex = (currentPage - 1) * 20;
-    const endIndex = startIndex + 20;
-    const petsToDisplay = allPets.slice(startIndex, endIndex);
+    const petData = allPets;
     
     // Clear the container
     const container = document.getElementById('pet-container');
     container.innerHTML = '';
     
-    if (petsToDisplay.length === 0) {
+    if (petData.length === 0) {
         container.innerHTML = '<p style="text-align: center;">No more pets available.</p>';
         document.getElementById('next-page').disabled = true;
         return;
     }
     
     // Display the current page of pets
-    displayPets(petsToDisplay, includedData);
+    displayPets(petData, includedData);
     
     // Update button states
     document.getElementById('prev-page').disabled = currentPage === 1;
-    document.getElementById('next-page').disabled = endIndex >= allPets.length;
+    document.getElementById('next-page').disabled = currentPage >= totalPages;
 }
 
 function displayPets(pets, included) {
@@ -227,6 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
     filtersForm.addEventListener('submit', async(event) => {
         event.preventDefault();
         const formSubmission = event.target;
+        currentPage = 1;
         const structuredFilters = buildFilters(formSubmission);
         fetchPets(structuredFilters);
     });
@@ -234,16 +234,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('prev-page').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            displayCurrentPage();
+            fetchPets(currentPage);
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
     
     document.getElementById('next-page').addEventListener('click', () => {
-        const maxPage = Math.ceil(allPets.length / 20);
-        if (currentPage < maxPage) {
+        if (currentPage < totalPages) {
             currentPage++;
-            displayCurrentPage();
+            fetchPets(currentPage);
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
