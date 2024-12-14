@@ -188,33 +188,33 @@ function displayPets(pets, included) {
         }
 
         //getting the picture id
-        const pictureId = pet.relationships?.pictures?.data[0]?.id;
+        const pictureId = pet.relationships?.pictures?.data?.[0]?.id;
 
         // find the image using the id 
-        const imageObject = included.find(item => item.id === pictureId);
+        const imageObject = included.find(item => item.type === "pictures" && item.id === pictureId);
 
         // get image
-        const imgUrl = imageObject?.attributes?.large?.url || '';  
-
-        // placeholder
-        const imageSrc = imgUrl || 'noimage.png';
-        
+        const imgUrl = imageObject?.attributes?.large?.url || 'noimage.png';  
+        console.log("image:", imgUrl)
         const petCard = document.createElement('div');
         petCard.className = 'pet-card';
 
         petCard.innerHTML = `
-            <img src="${imageSrc}" alt = "${name}" class = "pet-img">
-            <div class="pet-info">
-                <h3 class="pet-name">${name} • Pet ID: ${id}</h3>
-                <div class="pet-details">
-                    <p>${species} • ${sex}</p>
-                    <p>${breedPrimary}</p>
-                    <p>${ageGroup}</p>
-                    ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
+            <a href="petSpecific.html?id=${id}">
+                <img src="${imgUrl}" alt = "${name}" class = "pet-img">
+                <div class="pet-info">
+                    <h3 class="pet-name">${name} • Pet ID: ${id}</h3>
+                    <div class="pet-details">
+                        <p>${species} • ${sex}</p>
+                        <p>${breedPrimary}</p>
+                        <p>${ageGroup}</p>
+                        ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
+                    </div>
                 </div>
-            </div>
+            </a>
         `;
-        
+        console.log(pets)
+        console.log("included:", included)
         container.appendChild(petCard);
     });
 }
