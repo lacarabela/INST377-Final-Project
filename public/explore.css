@@ -168,3 +168,46 @@ a:hover {
     text-decoration: none;
     color: black;
 }
+
+#zipcode {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+#distance {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Add hover effects */
+#zipcode:hover, #distance:hover {
+    border-color: #666;
+}
+
+/* Add focus effects */
+#zipcode:focus, #distance:focus {
+    outline: none;
+    border-color: #333;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+/* Add placeholder styling */
+#zipcode::placeholder {
+    color: #999;
+}
+
+/* Error state for invalid ZIP */
+#zipcode:invalid {
+    border-color: #ff6b6b;
+}
