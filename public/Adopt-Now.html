@@ -77,35 +77,44 @@
     <!--Contact Form-->
     <div class="form-container">
         <h2>Adoption Application Interest Form</h2>
-        <form>
-            <label for="petID">Pet ID:</label>
-            <input type="text" id="petID">
-            <br>
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName">
-            <br>
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName">
-            <br>
-            <label for="address">Address:</label>
-            <input type="text" id="address">
-            <br>
-            <label for="city">City:</label>
-            <input type="text" id="city">
-            <br>
-            <label for="state">State:</label>
-            <input type="text" id="state">
-            <br>
-            <label for="zip">Zip Code:</label>
-            <input type="text" id="zip">
-            <br>
-            <label for="email">Email:</label>
-            <input type="text" id="email">
-            <br>
-            <label for="cell">Cell Phone Number:</label>
-            <input type="text" id="cell">
-            <br>
-            <button class="button-21" type="submit" role="button">Submit</button>
+        <form id="adoptionForm" class="adoption-form">
+            <div class="form-group">
+                <label for="pet_id">Pet ID: <span class="form-hint">(Found on pet's profile)</span></label>
+                <input type="text" id="pet_id" name="pet_id" placeholder="Enter Pet ID" required>
+            </div>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div class="form-group">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+            </div>
+            <div class="form-group">
+                <label for="zip">ZIP Code:</label>
+                <input type="text" id="zip" name="zip" required pattern="[0-9]{5}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="cell">Cell Phone:</label>
+                <input type="tel" id="cell" name="cell" required pattern="[0-9]{10}">
+            </div>
+            <button type="submit" class="button-21">Submit Adoption Inquiry</button>
         </form>
     </div>
 
