@@ -2,14 +2,34 @@
     "version": 2,
     "builds": [
         {
-            "src": ".index.js",
+            "src": "index.js",
             "use": "@vercel/node"
+        },
+        {
+            "src": "public/**",
+            "use": "@vercel/static"
         }
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "/"
+            "src": "/",
+            "dest": "public/Home.html"
+        },
+        {
+            "src": "/explore",
+            "dest": "public/Explore.html"
+        },
+        {
+            "src": "/adopt-now",
+            "dest": "public/Adopt-Now.html"
+        },
+        {
+            "src": "/newsletter",
+            "dest": "public/Newsletter.html"
+        },
+        {
+            "src": "/(.+)",
+            "dest": "public/$1"
         }
     ]
 }
