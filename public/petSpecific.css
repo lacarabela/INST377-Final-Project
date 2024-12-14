@@ -1,0 +1,78 @@
+
+/* Container */
+#pet-container {
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    background: whitesmoke;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Pet Image */
+.pet-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Pet Name */
+.pet-name {
+    font-size: 28px;
+    color: black;
+    margin: 10px 0;
+}
+
+/* Pet Details */
+.pet-info p {
+    font-size: 18px;
+    margin: 5px 0;
+    color: black;
+}
+
+/* Highlight Breed and Species */
+.pet-info p:nth-of-type(2),
+.pet-info p:nth-of-type(3) {
+    font-weight: bold;
+    color: black;
+}
+
+/* Description */
+.pet-description {
+    margin-top: 20px;
+    color: black;
+    text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #pet-container {
+        margin: 20px;
+        padding: 15px;
+    }
+
+    .pet-name {
+        font-size: 24px;
+    }
+
+    .pet-info p {
+        font-size: 16px;
+    }
+}
+
+/*Back to Explore*/
+
+.back-button {
+    background-color: lightblue;
+    color: black;
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.back-button:hover {
+    background-color: #bde6e4;
+}

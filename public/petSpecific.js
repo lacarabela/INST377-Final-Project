@@ -31,6 +31,9 @@ function displayPet(petData, included) {
     const pet = petData[0];
     const id = pet.id;
     const name = pet.attributes.name;
+
+    document.title = `${name} • Pet ID: ${id}`;
+
     const breedPrimary = pet.attributes.breedPrimary;
     const ageGroup = pet.attributes.ageGroup;
     const sex = pet.attributes.sex;
@@ -59,6 +62,18 @@ function displayPet(petData, included) {
                 ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
             </div>
         `;
+    addBackButton();
 };
    
+function addBackButton() {
+    const container = document.getElementById('pet-container');
+    const backButton = document.createElement('button');
+    backButton.textContent = 'Back to Explore';
+    backButton.classList.add('back-button');
+    backButton.onclick = function() {
+        window.history.back(); 
+    };
+    container.appendChild(backButton);
+}
+
 //window.onload=determinePet();
