@@ -1,11 +1,11 @@
 {
   "name": "inst377-final-project",
   "version": "1.0.0",
-  "description": "- Description of your project\r - Description of target browsers (ios? Android? Desktop?)\r - Link to Developer Manual",
-  "main": "script.js",
+  "description": "Pet Adoption Platform",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon -e '*'"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "author": "Nathan Maldonado",
   "license": "ISC",
