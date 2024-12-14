@@ -3,8 +3,8 @@ const API_KEY = '6fl4zm3w';
 
 let currentPage = 1;
 let pageTracker = 1;
-let allPets = []; // Cache to store all fetched pets
-let includedData = []; // Cache to store all included data (images)
+let allPets = []; //stores the data for all pets returned by the fetch 
+let includedData = []; // stores all included data for images and species info
 
 //creates the body for filters
 function buildFilters(form) {
@@ -246,16 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
-
-    // document.getElementById('apply-filters').addEventListener('click', () => {
-    //     const zipCode = document.getElementById('zipcode').value;
-    //     if (zipCode && zipCode.length === 5) {
-    //         currentPage = 1; // Reset to first page
-    //         fetchAllPets(); // Fetch new pets based on new location
-    //     } else {
-    //         alert('Please enter a valid 5-digit ZIP code');
-    //     }
-    // });
 
     // Initial fetch of all pets (no filters)
     fetchPets();
