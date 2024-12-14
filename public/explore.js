@@ -188,7 +188,7 @@ function displayPets(pets, included) {
         const imgUrl = imageObject?.attributes?.large?.url || '';  
 
         // placeholder
-        const imageSrc = imgUrl || 'https://via.placeholder.com/150';
+        const imageSrc = imgUrl || 'noimage.png';
         
         const petCard = document.createElement('div');
         petCard.className = 'pet-card';
