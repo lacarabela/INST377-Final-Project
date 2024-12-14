@@ -195,7 +195,6 @@ function displayPets(pets, included) {
 
         // get image
         const imgUrl = imageObject?.attributes?.large?.url || 'noimage.png';  
-        console.log("image:", imgUrl)
         const petCard = document.createElement('div');
         petCard.className = 'pet-card';
 
@@ -213,8 +212,6 @@ function displayPets(pets, included) {
                 </div>
             </a>
         `;
-        console.log(pets)
-        console.log("included:", included)
         container.appendChild(petCard);
     });
 }
