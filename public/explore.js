@@ -169,15 +169,24 @@ function displayPets(pets, included) {
     
     pets.forEach(pet => {
         const {
-            id,
             name,
-            species,
             breedPrimary,
             ageGroup,
             sex,
             descriptionText
         } = pet.attributes;
         
+        const id = pet.id;
+
+        let species = 'Furry Friend';
+        const speciesId = pet.relationships?.species?.data?.[0]?.id;
+        console.log(speciesId)
+        if(speciesId==="3"){
+            species = "Cat";
+        }else if(speciesId==="8"){
+            species = "Dog";
+        }
+
         //getting the picture id
         const pictureId = pet.relationships?.pictures?.data[0]?.id;
 
