@@ -176,11 +176,12 @@ function displayPets(pets, included) {
             descriptionText
         } = pet.attributes;
         
+        //getting the pet id
         const id = pet.id;
 
+        //getting the species
         let species = 'Furry Friend';
         const speciesId = pet.relationships?.species?.data?.[0]?.id;
-        console.log(speciesId)
         if(speciesId==="3"){
             species = "Cat";
         }else if(speciesId==="8"){
