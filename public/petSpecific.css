@@ -76,3 +76,11 @@
 .back-button:hover {
     background-color: #bde6e4;
 }
+
+a {
+    color: black;
+}
+
+a:hover {
+    color: black;
+}
