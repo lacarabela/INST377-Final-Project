@@ -5,6 +5,49 @@ let currentSlide = 0;
 let stories = [];
 let autoAdvanceTimer;
 
+// Newsletter signup function
+async function handleNewsletterSignup(event) {
+    event.preventDefault();
+    
+    try {
+        const formData = {
+            person_id: generatePersonId(),
+            first_name: document.querySelector('input[placeholder="First Name"]').value,
+            last_name: document.querySelector('input[placeholder="Last Name"]').value,
+            email: document.querySelector('input[placeholder="Email"]').value
+        };
+
+        console.log('Attempting to submit newsletter signup:', formData);
+
+        const response = await fetch(`${supabaseURL}/rest/v1/join-newsletter`, {
+            method: 'POST',
+            headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+                'Content-Type': 'application/json',
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(formData)
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Response error:', errorText);
+            throw new Error(`Failed to submit: ${errorText}`);
+        }
+
+        // Clear form and show success message
+        event.target.reset();
+        alert('You will receive our next newsletter! You can find last month\'s on our Newsletter page.');
+
+    } catch (error) {
+        console.error('Error submitting newsletter signup:', error);
+        alert('There was an error signing up for the newsletter. Please try again.');
+    }
+}
+
+
+
 async function fetchSuccessStories() {
     try {
         const response = await fetch(`${supabaseURL}/rest/v1/success_stories?select=*`, {
