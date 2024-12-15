@@ -70,6 +70,175 @@ Click Through Success Stories Carousel: Click through different success stories 
 
 ## API for Application
 
+### External APIs Used
+1. Rescue Groups API
+   - Base URL: https://api.rescuegroups.org/v5/public/
+   - Endpoints used:
+     - GET /animals - Fetches available pets with filters
+     - GET /orgs - Fetches organization/shelter information
+
+2. Supabase Database API
+   - Base URL: [YOUR_SUPABASE_URL]
+   - Endpoints:
+     - POST /adoption-inquiry
+       - Purpose: Submit adoption application
+       - Required fields: person_id, pet_id, first_name, last_name, address, city, state, zip, email, cell
+       - Returns: Success/error message
+
+     - POST /join-newsletter
+       - Purpose: Newsletter signup
+       - Required fields: person_id, first_name, last_name, email
+       - Returns: Success/error message
+
+### API Usage Examples
+
+1. Fetch Available Pets:
+
+GET https://api.rescuegroups.org/v5/public/animals
+Headers: {
+    'Authorization': [YOUR_API_KEY],
+    'Content-Type': 'application/vnd.api+json'
+}
+
+2. Submit Adoption Inquiry:
+
+POST [YOUR_SUPABASE_URL]/rest/v1/adoption-inquiry
+Headers: {
+    'apikey': [YOUR_SUPABASE_KEY],
+    'Authorization': `Bearer [YOUR_SUPABASE_KEY]`,
+    'Content-Type': 'application/json'
+}
+Body: {
+    "person_id": "generated_id",
+    "pet_id": "pet_id",
+    "first_name": "string",
+    "last_name": "string",
+    "address": "string",
+    "city": "string",
+    "state": "string",
+    "zip": "string",
+    "email": "string",
+    "cell": "string"
+}
+
+3. Newsletter Signup:
+
+POST [YOUR_SUPABASE_URL]/rest/v1/join-newsletter
+Headers: {
+    'apikey': [YOUR_SUPABASE_KEY],
+    'Authorization': `Bearer [YOUR_SUPABASE_KEY]`,
+    'Content-Type': 'application/json'
+}
+Body: {
+    "person_id": "generated_id",
+    "first_name": "string",
+    "last_name": "string",
+    "email": "string"
+}
+
+### API Test Calls
+Here are example test functions you can use to verify the API endpoints:
+
+1. Test Fetching Available Pets:
+```javascript
+async function testFetchPets() {
+    try {
+        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=-animals.createdDate&limit=5', {
+            headers: {
+                'Authorization': '[YOUR_API_KEY]',
+                'Content-Type': 'application/vnd.api+json'
+            }
+        });
+        const data = await response.json();
+        console.log('Fetch Pets Test Response:', data);
+        return data.data ? 'Test Passed' : 'Test Failed';
+    } catch (error) {
+        console.error('Fetch Pets Test Failed:', error);
+        return 'Test Failed';
+    }
+}
+```
+
+2. Test Adoption Inquiry Submission:
+```javascript
+async function testAdoptionInquiry() {
+    try {
+        const testData = {
+            person_id: 123456,
+            pet_id: "TEST123",
+            first_name: "Test",
+            last_name: "User",
+            address: "123 Test St",
+            city: "Test City",
+            state: "MD",
+            zip: "20742",
+            email: "test@test.com",
+            cell: "1234567890"
+        };
+
+        const response = await fetch('[YOUR_SUPABASE_URL]/rest/v1/adoption-inquiry', {
+            method: 'POST',
+            headers: {
+                'apikey': '[YOUR_SUPABASE_KEY]',
+                'Authorization': 'Bearer [YOUR_SUPABASE_KEY]',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(testData)
+        });
+        
+        console.log('Adoption Inquiry Test Response:', response.status);
+        return response.ok ? 'Test Passed' : 'Test Failed';
+    } catch (error) {
+        console.error('Adoption Inquiry Test Failed:', error);
+        return 'Test Failed';
+    }
+}
+```
+
+3. Test Newsletter Signup:
+```javascript
+async function testNewsletterSignup() {
+    try {
+        const testData = {
+            person_id: 123456,
+            first_name: "Test",
+            last_name: "Subscriber",
+            email: "test@newsletter.com"
+        };
+
+        const response = await fetch('[YOUR_SUPABASE_URL]/rest/v1/join-newsletter', {
+            method: 'POST',
+            headers: {
+                'apikey': '[YOUR_SUPABASE_KEY]',
+                'Authorization': 'Bearer [YOUR_SUPABASE_KEY]',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(testData)
+        });
+        
+        console.log('Newsletter Signup Test Response:', response.status);
+        return response.ok ? 'Test Passed' : 'Test Failed';
+    } catch (error) {
+        console.error('Newsletter Signup Test Failed:', error);
+        return 'Test Failed';
+    }
+}
+```
+
+To run all tests in the browser console:
+```javascript
+async function runAllTests() {
+    console.log('Testing Fetch Pets:', await testFetchPets());
+    console.log('Testing Adoption Inquiry:', await testAdoptionInquiry());
+    console.log('Testing Newsletter Signup:', await testNewsletterSignup());
+}
+
+// Execute tests
+runAllTests();
+```
+
+Note: Replace [YOUR_SUPABASE_URL], [YOUR_SUPABASE_KEY], and [YOUR_API_KEY] with your actual credentials when testing. These tests will log results to the console and return 'Test Passed' or 'Test Failed' based on the API response.
+
 
 ## Roadmap for Future Development
 
