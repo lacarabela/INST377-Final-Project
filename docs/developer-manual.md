@@ -51,7 +51,30 @@ This will install the follwing required dependencies
 
 ## Running Tests 
 
-Need to do this section still 
+A user can utilize functions such as:
+
+Page Navigation :
+
+Newsletter Sign Up:
+
+Locate Nearby Shelters on Adopt Now page:
+
+View Individual Pet Details:
+
+Filter Pets by:
+Pet Type
+Location / Proximity
+Age
+Color
+
+Adopt Now Map:
+
+
+Adoption Application Interest Form:
+
+
+Click Through Success Stories Carousel:
+
 
 ## API for Application
 
