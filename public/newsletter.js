@@ -1,9 +1,16 @@
+// Supabase URL and Key
+const API_KEY = '6fl4zm3w';
 const supabaseURL = "https://epyxrggyyuntjuaslbqr.supabase.co";
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVweXhyZ2d5eXVudGp1YXNsYnFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzI5MDgzNjYsImV4cCI6MjA0ODQ4NDM2Nn0.FEjCK8niumZaWUg9mT2QUqFTJrBdgo8SqVOAHMJ5uOY';
 
 let currentSlide = 0;
 let stories = [];
 let autoAdvanceTimer;
+
+// Function to generate random person_id
+function generatePersonId() {
+    return Math.floor(Math.random() * 1000000) + 1; // Generates number between 1 and 1000000
+}
 
 // Newsletter signup function
 async function handleNewsletterSignup(event) {
