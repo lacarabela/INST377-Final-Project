@@ -1,4 +1,5 @@
 // API Key configuration
+let currentFilters = null;
 const API_KEY = '6fl4zm3w';
 
 let currentPage = 1;
@@ -74,7 +75,7 @@ function buildFilters(form) {
     };
  }
 
-async function fetchPets(page=1, structuredFilters=null) {
+async function fetchPets(page=1, structuredFilters=currentFilters) {
     try {
         const headerOptions = {
             headers: {
@@ -220,18 +221,21 @@ function displayPets(pets, included) {
 document.addEventListener('DOMContentLoaded', () => {
     // Initial fetch of all pets
     const filtersForm = document.getElementById('petFilters')
+    
+    
     filtersForm.addEventListener('submit', async(event) => {
         event.preventDefault();
         const formSubmission = event.target;
+
+        currentFilters = buildFilters(formSubmission);
         currentPage = 1;
-        const structuredFilters = buildFilters(formSubmission);
-        fetchPets(structuredFilters);
+        fetchPets(currentPage, currentFilters);
     });
     
     document.getElementById('prev-page').addEventListener('click', () => {
         if (currentPage > 1) {
             currentPage--;
-            fetchPets(currentPage);
+            fetchPets(currentPage, currentFilters);
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
@@ -239,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('next-page').addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
-            fetchPets(currentPage);
+            fetchPets(currentPage, currentFilters);
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
