@@ -61,6 +61,9 @@ function displayPet(petData, included) {
                 <p>${ageGroup}</p>
                 ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
             </div>
+            <div id="interest">
+                <p style='font-size:15pt;' >Interested in adopting ${name}? Head to our <a href="Adopt-Now.html"><strong>Adopt Now</a></strong> page to fill out an application!</p>
+            </div>
         `;
     addBackButton();
 };
