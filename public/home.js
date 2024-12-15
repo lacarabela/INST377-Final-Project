@@ -85,6 +85,8 @@ function displayPets(pets, included) {
             createdDate
         } = pet.attributes;
 
+        const id = pet.id;
+
         let species = 'Furry Friend';
         const speciesId = pet.relationships?.species?.data?.[0]?.id;
         if(speciesId==="3"){
@@ -110,14 +112,16 @@ function displayPets(pets, included) {
         petCard.className = 'pet-card';
 
         petCard.innerHTML = `
-            <img src="${imageSrc}" alt="${name}" class="pet-img">
-            <h3 class="pet-name">${name}</h3>
-            <div class="pet-details">
-                <p>${species} • ${sex}</p>
-                <p>${breedPrimary}</p>
-                <p>${ageGroup}</p>
-                ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
-            </div>
+            <a href="petSpecific.html?id=${id}">
+                <img src="${imageSrc}" alt="${name}" class="pet-img">
+                <h3 class="pet-name">${name}</h3>
+                <div class="pet-details">
+                    <p>${species} • ${sex}</p>
+                    <p>${breedPrimary}</p>
+                    <p>${ageGroup}</p>
+                    ${descriptionText ? `<p class="pet-description">${descriptionText}</p>` : ''}
+                </div>
+            </a>
         `;
         
         container.appendChild(petCard);
