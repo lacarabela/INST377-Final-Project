@@ -68,63 +68,146 @@ Adoption Application Interest Form: Fill out adoption interest form on Adopt Now
 Click Through Success Stories Carousel: Click through different success stories in the carousel on the Newsletter page. 
 
 
-## API for Application
+## API Usage Details
 
-### External APIs Used
-1. Rescue Groups API
-   - Base URL: https://api.rescuegroups.org/v5/public/
-   - Endpoints used:
-     - GET /animals - Fetches available pets with filters
-     - GET /orgs - Fetches organization/shelter information
+### RescueGroups API Implementation
+Our application uses the RescueGroups API:
 
-2. Supabase Database API
-   - Base URL: [YOUR_SUPABASE_URL]
-   - Database Tables:
-     
-     a) adoption-inquiry
-     - Stores submitted adoption application information
-     - Required Fields:
-       * person_id (int): Randomly generated unique identifier
-       * pet_id (text): ID of the pet being inquired about
-       * first_name (text): Applicant's first name
-       * last_name (text): Applicant's last name
-       * address (text): Street address
-       * city (text): City name
-       * state (text): State abbreviation
-       * zip (text): ZIP code
-       * email (text): Contact email
-       * cell (text): Contact phone number
+- Base URL: `https://api.rescuegroups.org/v5/public`
+- Content-Type: `application/json`
+- Authentication: API Key in Authorization header
 
-     b) join-newsletter
-     - Stores newsletter subscriber information
-     - Required Fields:
-       * person_id (int): Randomly generated unique identifier
-       * first_name (text): Subscriber's first name
-       * last_name (text): Subscriber's last name
-       * email (text): Subscriber's email address
+1. Home Page (`public/home.js`)
+   - Fetches newest arrivals using sort parameter `-animals.createdDate`
+   - Limited to 5 pets for the featured section
+   - Example endpoint usage:
+     ```javascript
+     GET /animals
+     {
+         headers: {
+             'Authorization': API_KEY,
+             'Content-Type': 'application/json'
+         },
+         url: 'animals?sort=-animals.createdDate&limit=5&include=pictures,species'
+     }
+     ```
 
-   - Endpoints:
-     - POST /adoption-inquiry
-       - Purpose: Submit adoption application
-       - Updates: Adds new row to adoption-inquiry table
-       - Returns: Success/error message
+2. Adopt Now Page (`public/adopt-now.js`)
+   - Implementation details for shelter search:
+     ```javascript
+     GET /orgs
+     {
+         headers: {
+             'Authorization': API_KEY,
+             'Content-Type': 'application/json'
+         },
+         url: `orgs/?filterRadius[postalcode]=${searchZipCode}&filterRadius[miles]=${radius}`
+     }
+     ```
 
-     - POST /join-newsletter
-       - Purpose: Newsletter sign-up
-       - Updates: Adds new row to join-newsletter table
-       - Returns: Success/error message
+3. Explore Page (`public/explore.js`)
+   - Uses POST for complex filtering:
+     ```javascript
+     POST /animals/search
+     {
+         headers: {
+             'Authorization': API_KEY,
+             'Content-Type': 'application/json'
+         },
+         body: {
+             data: {
+                 filters: [
+                     {
+                         fieldName: 'species.id',
+                         operation: 'equal',
+                         criteria: [8, 3]  // dogs and cats
+                     },
+                     {
+                         fieldName: 'statuses.id',
+                         operation: 'equal',
+                         criteria: [1, 2]  // available status
+                     }
+                 ],
+                 filterRadius: {
+                     miles: 500,
+                     postalcode: "20743"
+                 }   
+             }
+         }
+     }
+     ```
 
-### API Test Calls
-Here are example test functions you can use to verify the API endpoints:
+4. Pet Specific Page (`public/petSpecific.js`)
+   - Fetches individual pet details:
+     ```javascript
+     GET /animals/${petId}
+     {
+         headers: {
+             'Authorization': API_KEY,
+             'Content-Type': 'application/json'
+         },
+         url: `animals/${petId}?include=pictures,species`
+     }
+     ```
+
+### Supabase Database Implementation
+
+1. Newsletter Functionality (`public/home.js` and `public/newsletter.js`)
+   - Handles newsletter sign-ups from multiple pages:
+     * Home Page: Basic newsletter signup form
+     * Newsletter Page: Extended signup form with success stories carousel
+   - Implementation details:
+     * Uses shared Supabase connection configuration
+     * Generates unique person_id for each subscriber
+     * Validates form inputs before submission
+     * Stores subscriber data in `join-newsletter` table
+     * Provides user feedback through alerts
+   - Example endpoint usage:
+     ```javascript
+     POST /rest/v1/join-newsletter
+     {
+         person_id: (generated),
+         first_name: "User input",
+         last_name: "User input",
+         email: "user@example.com"
+     }
+     ```
+
+2. Adoption Applications (`public/adopt-now.js`)
+   - Processes adoption inquiry forms
+   - Implementation details:
+     * Validates all required fields
+     * Generates unique application IDs
+     * Links pet data with applicant information
+     * Stores in `adoption-inquiry` table
+   - Example endpoint usage:
+     ```javascript
+     POST /rest/v1/adoption-inquiry
+     {
+         person_id: (generated),
+         pet_id: "selected_pet_id",
+         first_name: "User input",
+         last_name: "User input",
+         address: "User input",
+         city: "User input",
+         state: "User input",
+         zip: "User input",
+         email: "user@example.com",
+         cell: "1234567890"
+     }
+     ```
+
+## API Test Calls
+Example test functions to verify API endpoints:
 
 1. Test Fetching Available Pets:
 ```javascript
 async function testFetchPets() {
     try {
-        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=-animals.createdDate&limit=5', {
+        const response = await fetch('https://api.rescuegroups.org/v5/public/animals?sort=-animals.createdDate&limit=5&include=pictures,species', {
             headers: {
-                'Authorization': '[YOUR_API_KEY]',
-                'Content-Type': 'application/vnd.api+json'
+                'Authorization': API_KEY,
+                'Content-Type': 'application/json'
             }
         });
         const data = await response.json();
@@ -137,12 +220,38 @@ async function testFetchPets() {
 }
 ```
 
-2. Test Adoption Inquiry Submission:
+2. Test Shelter Search:
+```javascript
+async function testFetchOrgs() {
+    try {
+        const testZip = "20742";
+        const testRadius = "50";
+        
+        const response = await fetch(
+            `https://api.rescuegroups.org/v5/public/orgs/?filterRadius[postalcode]=${testZip}&filterRadius[miles]=${testRadius}`, 
+            {
+                headers: {
+                    'Authorization': API_KEY,
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+        const data = await response.json();
+        console.log('Fetch Orgs Test Response:', data);
+        return data.data ? 'Test Passed' : 'Test Failed';
+    } catch (error) {
+        console.error('Fetch Orgs Test Failed:', error);
+        return 'Test Failed';
+    }
+}
+```
+
+3. Test Adoption Inquiry Submission:
 ```javascript
 async function testAdoptionInquiry() {
     try {
         const testData = {
-            person_id: 123456,
+            person_id: Math.floor(Math.random() * 1000000),
             pet_id: "TEST123",
             first_name: "Test",
             last_name: "User",
@@ -154,11 +263,11 @@ async function testAdoptionInquiry() {
             cell: "1234567890"
         };
 
-        const response = await fetch('[YOUR_SUPABASE_URL]/rest/v1/adoption-inquiry', {
+        const response = await fetch(`${supabaseURL}/rest/v1/adoption-inquiry`, {
             method: 'POST',
             headers: {
-                'apikey': '[YOUR_SUPABASE_KEY]',
-                'Authorization': 'Bearer [YOUR_SUPABASE_KEY]',
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(testData)
@@ -173,22 +282,22 @@ async function testAdoptionInquiry() {
 }
 ```
 
-3. Test Newsletter Signup:
+4. Test Newsletter Signup:
 ```javascript
 async function testNewsletterSignup() {
     try {
         const testData = {
-            person_id: 123456,
+            person_id: Math.floor(Math.random() * 1000000),
             first_name: "Test",
             last_name: "Subscriber",
             email: "test@newsletter.com"
         };
 
-        const response = await fetch('[YOUR_SUPABASE_URL]/rest/v1/join-newsletter', {
+        const response = await fetch(`${supabaseURL}/rest/v1/join-newsletter`, {
             method: 'POST',
             headers: {
-                'apikey': '[YOUR_SUPABASE_KEY]',
-                'Authorization': 'Bearer [YOUR_SUPABASE_KEY]',
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(testData)
@@ -206,13 +315,10 @@ async function testNewsletterSignup() {
 To run all tests in the browser console:
 ```javascript
 async function runAllTests() {
-    console.log('Testing Fetch Pets:', await testFetchPets());
+    console.log('Testing Fetch Orgs:', await testFetchOrgs());
     console.log('Testing Adoption Inquiry:', await testAdoptionInquiry());
     console.log('Testing Newsletter Signup:', await testNewsletterSignup());
 }
-
-// Execute tests
-runAllTests();
 ```
 
 Note: Replace [YOUR_SUPABASE_URL], [YOUR_SUPABASE_KEY], and [YOUR_API_KEY] with your actual credentials when testing. These tests will log results to the console and return 'Test Passed' or 'Test Failed' based on the API response.
