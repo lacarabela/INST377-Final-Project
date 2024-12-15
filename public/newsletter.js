@@ -166,4 +166,10 @@ function setupSlider() {
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchSuccessStories();
+
+    // Add event listener for newsletter form
+    const newsletterForm = document.querySelector('.form-section form');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', handleNewsletterSignup);
+    }
 }); 
