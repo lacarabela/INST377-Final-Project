@@ -53,27 +53,19 @@ This will install the follwing required dependencies
 
 A user can utilize functions such as:
 
-Page Navigation :
+Page Navigation : Navigate to any available website page from the header present at the top of each page under the page name. 
 
-Newsletter Sign Up:
+Newsletter Sign Up: Fill out a form to sign up for the newsletter from the Home Page or Newsletter Page.
 
-Locate Nearby Shelters on Adopt Now page:
+Map Nearby Shelters on Adopt Now page: Fill out your zip code and view pinpoints on a Leaflet map of shelters or adoption centers located within your selected radius. Click on pinpoints to view shelter name and details. 
 
-View Individual Pet Details:
+View Individual Pet Details: Click on a pet while browsing or from the home page to view more information and adoption details. 
 
-Filter Pets by:
-Pet Type
-Location / Proximity
-Age
-Color
+Filter Pets on Explore page: Make selections for Pet Type, Location / Proximity, Age, and Color to view pets fitting those specifications. 
 
-Adopt Now Map:
+Adoption Application Interest Form: Fill out adoption interest form on Adopt Now page. 
 
-
-Adoption Application Interest Form:
-
-
-Click Through Success Stories Carousel:
+Click Through Success Stories Carousel: Click through different success stories in the carousel on the Newsletter page. 
 
 
 ## API for Application
