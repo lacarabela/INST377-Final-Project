@@ -60,11 +60,14 @@ Need to do this section still
 
 1. User Profiles
 
-Implement user profile functionality so that adopters can save their favorite animals, create preferences, or keep track of their application process
+Implement user profile functionality so that adopters can save their favorite animals, create preferences, or keep track of their application process. Users can have a login so that their personal information and preferences are always there. 
 
-2. Interactive Animal Profiles 
+2. Expansion of the Filtering Options
 
-Add the ability for users to see the full animal profile which should include more photos or more information about the pet's personality. 
+Expand the range of available filters such as specific breeds, adoption fee, energy levels, weight, etc. Also, the current "color" filter is not very expansive and does not include all pets of that selected color. 
 
+3. Incorporate Additional Leaflet Map
+
+The current leaflet map on the adopt now page allows users to enter their zip code and set a distance. Based on the zipcode entered, it may provide locations that are outside of the distance range due to shelter settings. There should be an additional option for users to only see shelters within their distance range that they can easily travel to. 
 
 
