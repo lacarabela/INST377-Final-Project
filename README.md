@@ -1,5 +1,8 @@
-# Rescue Groups INST 377
-## Top Half of README should include:
+# INST377 Final Project - Pet Adoption Platform
+
+Deployed Website: [https://inst-377-final-project-two.vercel.app/](https://inst-377-final-project-two.vercel.app/)
+
+## Description
 - Description of your project
 - Description of target browsers (ios? Android? Desktop?)
 - Link to Developer Manual
