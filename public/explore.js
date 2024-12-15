@@ -243,7 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('next-page').addEventListener('click', () => {
         if (currentPage < totalPages) {
             currentPage++;
-            fetchPets(currentPage, currentFilters);
+            fetchPets(currentPage, currentFilters
+                );
             document.getElementById('pet-container').scrollIntoView({ behavior: 'smooth' });
         }
     });
