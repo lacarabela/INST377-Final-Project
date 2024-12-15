@@ -1,6 +1,6 @@
 # Developer Manual 
 
-## Prerequsites 
+## Prerequisites 
 Make sure these are installed on your system
 
 - node.js
@@ -24,7 +24,7 @@ Running the following command will install all dependencies
 
 ```npm install```
 
-This will install the follwing required dependencies 
+This will install the following required dependencies 
 
     "@geoapify/geocoder-autocomplete": "^2.1.0",
     "@supabase/supabase-js": "^2.46.2",
@@ -79,15 +79,39 @@ Click Through Success Stories Carousel: Click through different success stories 
 
 2. Supabase Database API
    - Base URL: [YOUR_SUPABASE_URL]
+   - Database Tables:
+     
+     a) adoption-inquiry
+     - Stores submitted adoption application information
+     - Required Fields:
+       * person_id (int): Randomly generated unique identifier
+       * pet_id (text): ID of the pet being inquired about
+       * first_name (text): Applicant's first name
+       * last_name (text): Applicant's last name
+       * address (text): Street address
+       * city (text): City name
+       * state (text): State abbreviation
+       * zip (text): ZIP code
+       * email (text): Contact email
+       * cell (text): Contact phone number
+
+     b) join-newsletter
+     - Stores newsletter subscriber information
+     - Required Fields:
+       * person_id (int): Randomly generated unique identifier
+       * first_name (text): Subscriber's first name
+       * last_name (text): Subscriber's last name
+       * email (text): Subscriber's email address
+
    - Endpoints:
      - POST /adoption-inquiry
        - Purpose: Submit adoption application
-       - Required fields: person_id, pet_id, first_name, last_name, address, city, state, zip, email, cell
+       - Updates: Adds new row to adoption-inquiry table
        - Returns: Success/error message
 
      - POST /join-newsletter
-       - Purpose: Newsletter signup
-       - Required fields: person_id, first_name, last_name, email
+       - Purpose: Newsletter sign-up
+       - Updates: Adds new row to join-newsletter table
        - Returns: Success/error message
 
 ### API Test Calls
